@@ -79,11 +79,20 @@ COPY docker.cfg      /src/astrometry/net/
 COPY solvescript.sh  /src/astrometry/net/
 COPY apache2.conf    /etc/apache2/
 
-#WARNING : you need to run this in you shell before nuilding image
+#WARNING : you need to run this in you shell before building image
 #RUN cd /INDEXES/ \
 #  && for i in 4100 4200; do \
 #    wget -r -l1 --no-parent -nc -nd -A ".fits" http://data.astrometry.net/$i/;\
 #    done
+
+# wget http://data.astrometry.net/hip.fits
+# wget http://data.astrometry.net/tycho2.kd
+# wget http://data.astrometry.net/hd.fits
+
+RUN mkdir -p /data2/nova/
+COPY hip.fits /data2/nova/
+COPY hd.fits /data2/nova/
+COPY tycho2.kd /data2/nova/
 
 RUN cd /src/astrometry/net \
     && python manage.py makemigrations \
